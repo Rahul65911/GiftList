@@ -6,16 +6,13 @@ const port = 1225;
 const app = express();
 app.use(express.json());
 
-// TODO: hardcode a merkle root here representing the whole nice list
-// paste the hex string in here, without the 0x prefix
-const MERKLE_ROOT = '';
+const MERKLE_ROOT = 'ce9f4c3ad98fc9d8dd419cd20152b445dca8a7a8dc7300a56954f2a152226796';
 
 app.post('/gift', (req, res) => {
-  // grab the parameters from the front-end here
-  const body = req.body;
+  const { proof, myName } = req.body;
 
-  // TODO: prove that a name is in the list 
-  const isInTheList = false;
+  const isInTheList = verifyProof(proof, myName, MERKLE_ROOT);
+
   if(isInTheList) {
     res.send("You got a toy robot!");
   }
